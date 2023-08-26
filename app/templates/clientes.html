@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Garante que a página tenha pelo menos a altura da tela */
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            text-align: left;
+            max-height: 60vh; /* Defina a altura máxima da lista em relação à altura da tela */
+            overflow-y: auto;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+        }
+        li {
+            color: #666666;
+            padding: 10px;
+            border-bottom: 1px solid #dddddd;
+        }
+        .search-container {
+            margin-top: 20px;
+        }
+        .search-input {
+            padding: 8px;
+            border: 1px solid #dddddd;
+            border-radius: 4px 0 0 4px;
+        }
+        .search-button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+        .author {
+            margin-top: 20px;
+            color: #999999;
+            font-size: 12px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Clientes</h1>
+        
+        <div class="search-container">
+			<input type="text" class="search-input" id="searchInput" placeholder="Pesquisar cliente" onkeyup="searchOnEnter(event)">
+			<button class="search-button" onclick="searchClient()">Pesquisar</button>
+		</div>
+        
+        <ul id="clientList">
+            {% for cliente in clientes %}
+                <li>
+                    <strong>Nome:</strong> {{ cliente.nome }}<br>
+                    <strong>Email:</strong> {{ cliente.email }}<br>
+                    <strong>Telefone:</strong> {{ cliente.telefone }}
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <a href="/" class="btn">Voltar para Página Inicial</a>
+        <p class="author">Desenvolvido por Breno Dantas</p>
+    </div>
+
+	<script>
+		function searchClient() {
+			var input, filter, ul, li, i, txtValue;
+			input = document.getElementById('searchInput');
+			filter = input.value.toUpperCase();
+			ul = document.getElementById('clientList');
+			li = ul.getElementsByTagName('li');
+			for (i = 0; i < li.length; i++) {
+				txtValue = li[i].textContent || li[i].innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					li[i].style.display = '';
+				} else {
+					li[i].style.display = 'none';
+				}
+			}
+		}
+
+		function searchOnEnter(event) {
+			if (event.key === 'Enter') {
+				searchClient();
+			}
+		}
+	</script>
+</body>
+</html>
